@@ -17,7 +17,12 @@ router.use(session({
 }))
 
 router.get('/', (req, res) => {
-  res.json(req.session.favourites || [])
+  res.json({
+    success: true,
+    results: {
+      favourites: req.session.favourites || []
+    }
+  })
 })
 
 router.put('/:id', (req, res) => {

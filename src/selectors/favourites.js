@@ -1,1 +1,1 @@
-export const createIsFavouritedSelector = id => state => false // TODO implement
+export const createIsFavouritedSelector = id => state => state.favourites.favourites.includes(id)
