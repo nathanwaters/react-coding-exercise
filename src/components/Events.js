@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useSelector } from 'react-redux'
-import { getEvents, isEventsReady } from '../selectors'
+import { getEvents, isEventsReady, getEventsError } from '../selectors'
 import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
@@ -13,6 +13,7 @@ const Events = () => {
   const classes = useStyles()
   const ready = useSelector(isEventsReady)
   const events = useSelector(getEvents)
+  const error = useSelector(getEventsError)
 
   return (
     <div className={classes.container}>
@@ -23,7 +24,20 @@ const Events = () => {
           <span>: {events.length > 0 ? events.length : 'no'} events found</span>
         )}
       </h3>
-      {!ready && <div className={classes.loader}><Loader type='Circles' color='#dc1a83' height={80} width={80} /></div>}
+      {!ready && (
+        <div className={classes.notice}>
+          {error ? (
+            <div>
+              <h3>Oh no, something went wrong.</h3>
+              <h3>
+                <a href='/'>&laquo; Return to home</a>
+              </h3>
+            </div>
+          ) : (
+            <Loader type='Circles' color='#dc1a83' height={80} width={80} />
+          )}
+        </div>
+      )}
       {ready && (
         <div className={classes.tilesWrapper}>
           <div className={classes.tiles}>
@@ -36,8 +50,9 @@ const Events = () => {
 }
 
 const useStyles = createUseStyles({
-  loader: {
+  notice: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
