@@ -5,6 +5,9 @@ import { getEvents, isEventsReady } from '../selectors'
 import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
+import Loader from 'react-loader-spinner'
+
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const Events = () => {
   const classes = useStyles()
@@ -20,7 +23,7 @@ const Events = () => {
           <span>: {events.length > 0 ? events.length : 'no'} events found</span>
         )}
       </h3>
-      {!ready && <p>Loading...</p>}
+      {!ready && <div className={classes.loader}><Loader type='Circles' color='#dc1a83' height={80} width={80} /></div>}
       {ready && (
         <div className={classes.tilesWrapper}>
           <div className={classes.tiles}>
@@ -33,6 +36,13 @@ const Events = () => {
 }
 
 const useStyles = createUseStyles({
+  loader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    marginTop: '-70px'
+  },
   title: {
     paddingLeft: 20,
     position: 'relative'
